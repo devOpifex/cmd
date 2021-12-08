@@ -1,0 +1,20 @@
+{
+	"program": "printr",
+	"package": "printer",
+	"commands": [
+		{
+			"name": "print",
+			"short": "p",
+			"description": "Print Something",
+			"function": "print_sth",
+			"arguments": [
+				{
+					"name": "str",
+					"short": "s",
+					"description": "string to print",
+					"type": "string"
+				}
+			]
+		}
+	]
+}
