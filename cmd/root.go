@@ -33,7 +33,7 @@ var rootCmd = &cobra.Command{
 			os.Exit(1)
 		}
 
-		err = config.Generate()
+		err = config.Generate(dir)
 
 		if err != nil {
 			fmt.Println(err.Error())
