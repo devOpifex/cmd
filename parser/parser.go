@@ -86,3 +86,16 @@ func (cmds Commands) check() error {
 	}
 	return nil
 }
+
+func parseType(input string) string {
+	switch input {
+	case "character":
+		return "string"
+	case "numeric":
+		return "float64"
+	case "integer":
+		return "int"
+	default:
+		return input
+	}
+}

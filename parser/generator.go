@@ -4,6 +4,7 @@ import (
 	"errors"
 	"os"
 	"path/filepath"
+	"strings"
 )
 
 type app struct {
@@ -55,6 +56,7 @@ func (conf Config) Generate(dir string) error {
 		conf: conf,
 	}
 	cli.root()
+	cli.variables()
 	cli.execute()
 	cli.cmds()
 
@@ -80,6 +82,14 @@ func (app *app) root() {
 	}
 	`
 	app.code = app.code + root
+}
+
+func (app *app) variables() {
+	for _, cmd := range app.conf.Commands {
+		for _, variable := range cmd.Arguments {
+			app.code = app.code + "var " + cmd.Name + strings.Title(variable.Name) + " " + parseType(variable.Type) + "\n"
+		}
+	}
 }
 
 func (app *app) cmds() {
