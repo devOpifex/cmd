@@ -71,17 +71,19 @@ func (main *app) root() {
 		},
 	}
 
-	func Execute() {
+	func execute() {
 		if err := rootCmd.Execute(); err != nil {
 			fmt.Println(err)
 			os.Exit(1)
 		}
-	}`
+	}
+	`
 	main.code = main.code + root
 }
 
 func (main *app) mainFn() {
 	main.code = main.code + `func main() {
-		cmd.Execute()
-	}`
+		execute()
+	}
+	`
 }
