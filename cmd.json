@@ -14,7 +14,8 @@
 					"short": "s",
 					"description": "string to print",
 					"type": "string",
-					"required": false
+					"required": false,
+					"default": "hello world"
 				}
 			]
 		}
