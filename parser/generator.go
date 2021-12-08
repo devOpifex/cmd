@@ -55,17 +55,18 @@ func (conf Config) Generate(dir string) error {
 		conf: conf,
 	}
 	cli.root()
-	cli.mainFn()
+	cli.execute()
+	cli.cmds()
 
 	f.WriteString(cli.code)
 
 	return nil
 }
 
-func (main *app) root() {
+func (app *app) root() {
 	var root = `var rootCmd = &cobra.Command{
-		Use:   "` + main.conf.Program + `",
-		Short: "` + main.conf.Description + `",
+		Use:   "` + app.conf.Program + `",
+		Short: "` + app.conf.Description + `",
 		Run: func(cmd *cobra.Command, args []string) {
 			// Do Stuff Here
 		},
@@ -78,11 +79,28 @@ func (main *app) root() {
 		}
 	}
 	`
-	main.code = main.code + root
+	app.code = app.code + root
 }
 
-func (main *app) mainFn() {
-	main.code = main.code + `func main() {
+func (app *app) cmds() {
+	for i := range app.conf.Commands {
+		app.cmd(i)
+	}
+}
+
+func (app *app) cmd(index int) {
+	app.code = app.code + `var ` + app.conf.Commands[index].Name + `Cmd = &cobra.Command{
+		Use:   "` + app.conf.Commands[index].Name + `",
+		Short: "` + app.conf.Commands[index].Description + `",
+		Run: func(cmd *cobra.Command, args []string) {
+
+		},
+	}
+	`
+}
+
+func (app *app) execute() {
+	app.code = app.code + `func main() {
 		execute()
 	}
 	`
