@@ -24,10 +24,11 @@ type Command struct {
 }
 
 type Argument struct {
-	Name  string `json:"name"`
-	Short string `json:"short"`
-	Type  string `json:"type"`
-	Desc  string `json:"description"`
+	Name        string `json:"name"`
+	Short       string `json:"short"`
+	Type        string `json:"type"`
+	Default     string `json:"default"`
+	Description string `json:"description"`
 }
 
 func Read(path string) (Config, error) {
@@ -98,4 +99,12 @@ func parseType(input string) string {
 	default:
 		return input
 	}
+}
+
+func parseDefault(s, t string) string {
+	if t == "string" {
+		return "\"" + s + "\""
+	}
+
+	return t
 }
