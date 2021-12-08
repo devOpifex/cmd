@@ -6,14 +6,20 @@ import (
 	"path/filepath"
 )
 
-var code string = `package main
+type app struct {
+	code string
+	conf Config
+}
+
+var main string = `package main
 
 import (
+	"fmt"
+	"os"
+
 	"github.com/spf13/cobra"
 )
-
-func main() {
-}`
+`
 
 func (conf Config) setup(dir string) error {
 	programDir := filepath.Join(dir, conf.Program)
@@ -42,7 +48,40 @@ func (conf Config) Generate(dir string) error {
 		return errors.New("could not create main.go file")
 	}
 
-	f.WriteString(code)
+	defer f.Close()
+
+	var cli = app{
+		code: main,
+		conf: conf,
+	}
+	cli.root()
+	cli.mainFn()
+
+	f.WriteString(cli.code)
 
 	return nil
+}
+
+func (main *app) root() {
+	var root = `var rootCmd = &cobra.Command{
+		Use:   "` + main.conf.Program + `",
+		Short: "` + main.conf.Description + `",
+		Run: func(cmd *cobra.Command, args []string) {
+			// Do Stuff Here
+		},
+	}
+
+	func Execute() {
+		if err := rootCmd.Execute(); err != nil {
+			fmt.Println(err)
+			os.Exit(1)
+		}
+	}`
+	main.code = main.code + root
+}
+
+func (main *app) mainFn() {
+	main.code = main.code + `func main() {
+		cmd.Execute()
+	}`
 }

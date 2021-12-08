@@ -1,6 +1,7 @@
 {
 	"program": "printr",
 	"package": "printer",
+	"description": "print stuff",
 	"commands": [
 		{
 			"name": "print",

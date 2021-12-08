@@ -8,9 +8,10 @@ import (
 )
 
 type Config struct {
-	Program  string   `json:"program"`
-	Package  string   `json:"package"`
-	Commands Commands `json:"commands"`
+	Program     string   `json:"program"`
+	Package     string   `json:"package"`
+	Description string   `json:"description"`
+	Commands    Commands `json:"commands"`
 }
 
 type Commands []Command
