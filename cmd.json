@@ -2,6 +2,7 @@
 	"program": "printr",
 	"package": "printer",
 	"description": "print stuff",
+	"installCmd": "install.packages('printr')",
 	"commands": [
 		{
 			"name": "print",

@@ -69,6 +69,7 @@ func (conf Config) Generate(dir string) error {
 		code: main,
 		conf: conf,
 	}
+
 	cli.root()
 	cli.variables()
 	cli.execute()
@@ -85,7 +86,6 @@ func (app *app) root() {
 		Use:   "` + app.conf.Program + `",
 		Short: "` + app.conf.Description + `",
 		Run: func(cmd *cobra.Command, args []string) {
-			// Do Stuff Here
 		},
 	}
 
