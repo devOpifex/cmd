@@ -17,11 +17,13 @@ type Config struct {
 type Commands []Command
 
 type Command struct {
-	Name        string     `json:"name"`
-	Description string     `json:"description"`
-	Function    string     `json:"function"`
-	Arguments   []Argument `json:"arguments"`
+	Name        string    `json:"name"`
+	Description string    `json:"description"`
+	Function    string    `json:"function"`
+	Arguments   Arguments `json:"arguments"`
 }
+
+type Arguments []Argument
 
 type Argument struct {
 	Name        string `json:"name"`

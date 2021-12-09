@@ -15,6 +15,7 @@ type app struct {
 var main string = `package main
 
 import (
+	"bufio"
 	"fmt"
 	"os"
 	"os/exec"
@@ -123,23 +124,36 @@ func (app *app) cmds() {
 	}
 }
 
+func (app *app) args(index int) string {
+	var args string
+	for i, arg := range app.conf.Commands[index].Arguments {
+		args = args + "\"+" + app.conf.Commands[index].Name + strings.Title(arg.Name) + "+\""
+		if i+1 < len(app.conf.Commands[index].Arguments) {
+			args = args + ","
+		}
+	}
+	return args
+}
+
 func (app *app) cmd(index int) {
 	app.code = app.code + `var ` + app.conf.Commands[index].Name + `Cmd = &cobra.Command{
-		Use:   "` + app.conf.Commands[index].Name + `",
+		Use: "` + app.conf.Commands[index].Name + `",
 		Short: "` + app.conf.Commands[index].Description + `",
 		Run: func(cmd *cobra.Command, args []string) {
+			rArgs := "-e '` + app.conf.Package + "::" + app.conf.Commands[index].Function + "(" + app.args(index) + `)'"
 			path := getPath()
 			rCommand := exec.Command(path, rArgs)
-			stdout, _ := rCommand.StdoutPipe()
-
+			stdout, err := rCommand.StdoutPipe()
+			if err != nil {
+				fmt.Println(err)
+				os.Exit(1)
+			}
 			rCommand.Start()
-			if verbose {
-				scanner := bufio.NewScanner(stdout)
-				scanner.Split(bufio.ScanLines)
-				for scanner.Scan() {
-					line := scanner.Text()
-					fmt.Println(line)
-				}
+			scanner := bufio.NewScanner(stdout)
+			scanner.Split(bufio.ScanLines)
+			for scanner.Scan() {
+				line := scanner.Text()
+				fmt.Println(line)
 			}
 			rCommand.Wait()	
 		},
