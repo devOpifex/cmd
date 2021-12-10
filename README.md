@@ -76,3 +76,46 @@ Type can be one of `string`, `numeric`, `integer` or, `logical`.
 
 Above makes it such that we can call `rshiny run -d="this/dir"` or
 `rshiny run --dir=/some/path`
+
+## Generate
+
+Once the config file created and cmd installed run `cmd generate`
+from the root of the package where the config file is located.
+
+This creates a directory named after your program.
+
+Move into the created directory 
+(e.g.: `cd rshiny` in the example above) 
+then run the folowing.
+
+```bash
+go mod init github.com/<username>/<repo>/<program>
+go mod tidy
+```
+
+The first line will (in part) ensure you can work with go outside
+of your `GOROOT`, the second downloads dependencies if there are
+any (currently only [cobra](https://github.com/spf13/cobra)).
+
+You should only need to run the above once. No need to repeat the 
+process if you want to update your config and regenerate the code
+with `cmd generate`.
+
+Then to build run the following.
+
+```bash
+go build
+```
+
+This should produce a program you can call from the command line.
+If you only need it on your own system you can just call
+`go install`.
+
+By default `go build` builds for your system, you can easily
+build for other system with:
+
+```r
+GOOS=linux go build
+GOOS=windows go build
+GOOS=darwin go build
+```
