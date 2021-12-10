@@ -34,6 +34,24 @@ func getPath() string {
 
 	return p
 }
+
+func rRun(args string) {
+	path := getPath()
+	rCommand := exec.Command(path, args)
+	stdout, err := rCommand.StdoutPipe()
+	if err != nil {
+		fmt.Println(err)
+		os.Exit(1)
+	}
+	rCommand.Start()
+	scanner := bufio.NewScanner(stdout)
+	scanner.Split(bufio.ScanLines)
+	for scanner.Scan() {
+		line := scanner.Text()
+		fmt.Println(line)
+	}
+	rCommand.Wait()	
+}
 `
 
 func (conf Config) setup(dir string) error {
@@ -106,6 +124,7 @@ func (app *app) flags() {
 			def := parseDefault(arg.Default, arg.Type)
 			app.code = app.code + cmd.Name + "Cmd.Flags()." + strings.Title(parseType(arg.Type)) + "VarP(&" + cmd.Name + strings.Title(arg.Name) + ",\"" + arg.Name + "\",\"" + arg.Short + "\"," + def + ",\"" + arg.Description + "\")\n"
 		}
+		app.code = app.code + "rootCmd.AddCommand(" + cmd.Name + "Cmd)\n"
 	}
 	app.code = app.code + "}\n"
 }
@@ -140,22 +159,8 @@ func (app *app) cmd(index int) {
 		Use: "` + app.conf.Commands[index].Name + `",
 		Short: "` + app.conf.Commands[index].Description + `",
 		Run: func(cmd *cobra.Command, args []string) {
-			rArgs := "-e '` + app.conf.Package + "::" + app.conf.Commands[index].Function + "(" + app.args(index) + `)'"
-			path := getPath()
-			rCommand := exec.Command(path, rArgs)
-			stdout, err := rCommand.StdoutPipe()
-			if err != nil {
-				fmt.Println(err)
-				os.Exit(1)
-			}
-			rCommand.Start()
-			scanner := bufio.NewScanner(stdout)
-			scanner.Split(bufio.ScanLines)
-			for scanner.Scan() {
-				line := scanner.Text()
-				fmt.Println(line)
-			}
-			rCommand.Wait()	
+			rArgs := "-e ` + app.conf.Package + "::" + app.conf.Commands[index].Function + "(" + app.args(index) + `)"
+			rRun(rArgs)
 		},
 	}
 	`
