@@ -98,6 +98,8 @@ func parseType(input string) string {
 		return "float64"
 	case "integer":
 		return "int"
+	case "logical":
+		return "bool"
 	default:
 		return input
 	}
