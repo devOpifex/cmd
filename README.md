@@ -32,6 +32,7 @@ your R package.
 	"program": "rshiny",
 	"package": "shiny",
 	"description": "shiny from the command line",
+	"install": "install.packages('shiny')",
 	"commands": [
 		{
 			"name": "run",
@@ -79,6 +80,11 @@ Type can be one of `string`, `numeric`, `integer` or, `logical`.
 
 Above makes it such that we can call `rshiny run -d="this/dir"` or
 `rshiny run --dir=/some/path`
+
+__Install__
+
+Is used to generate the `rshiny install` command which installs
+the required R dependencies.
 
 ## Generate
 

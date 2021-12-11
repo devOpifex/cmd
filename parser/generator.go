@@ -89,6 +89,7 @@ func (conf Config) Generate(dir string) error {
 	}
 
 	cli.root()
+	cli.install()
 	cli.variables()
 	cli.execute()
 	cli.cmds()
@@ -126,7 +127,10 @@ func (app *app) flags() {
 		}
 		app.code = app.code + "rootCmd.AddCommand(" + cmd.Name + "Cmd)\n"
 	}
-	app.code = app.code + "}\n"
+	app.code = app.code + `
+		rootCmd.AddCommand(cmdInstall)
+	}
+	`
 }
 
 func (app *app) variables() {
@@ -166,6 +170,18 @@ func (app *app) cmd(index int) {
 			rRun(rArgs)
 		},
 	}
+	`
+}
+
+func (app *app) install() {
+	app.code += `
+		var cmdInstall = &cobra.Command{
+			Use:   "install",
+			Short: "install the required R package",
+			Run: func(cmd *cobra.Command, args []string) {
+				rRun("` + app.conf.Install + `")
+			},
+		}
 	`
 }
 

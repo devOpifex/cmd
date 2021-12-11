@@ -12,6 +12,7 @@ type Config struct {
 	Package     string   `json:"package"`
 	Description string   `json:"description"`
 	Commands    Commands `json:"commands"`
+	Install     string   `json:"install"`
 }
 
 type Commands []Command

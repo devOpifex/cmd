@@ -2,6 +2,7 @@
 	"program": "printr",
 	"package": "printer",
 	"description": "print stuff",
+	"install": "remotes::install_github('my/pkg')",
 	"commands": [
 		{
 			"name": "print",
