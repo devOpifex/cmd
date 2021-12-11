@@ -1,6 +1,6 @@
-# cmd
-
 ![](https://img.shields.io/badge/state-experimental-orange)
+
+# cmd
 
 Create command line applications from R packages.
 
