@@ -13,7 +13,7 @@ It's a bit ugly and unwieldy but it does the job.
 </details>
 
 
-__The user of the CLI requires an installation of R__
+__Using the generated CLI requires an installation of R__
 
 ## Install
 
