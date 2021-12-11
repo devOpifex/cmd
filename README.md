@@ -54,6 +54,7 @@ your R package.
 ```
 
 __Root__
+
 Specify the name of the `program` this is what users will call
 as root command in their shell. Indicate the `package` this
 CLI wraps.
@@ -63,12 +64,14 @@ call the program `rshiny`, e.g.: `rshiny -h` will bring up
 the help.
 
 __Commands__
+
 List the commands you want to expose to the users of the CLIU,
 these map to functions from the `package`.
 The `short` is the short version of the command so one can use
 `rshiny run` or `rshiny r`: this will run `shiny::runApp()`.
 
 __Arguments__
+
 List the arguments the function should take: _these are currently
 passed unnamed so order matters_
 
