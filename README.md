@@ -32,28 +32,28 @@ your R package.
 
 ```json
 {
-	"program": "rshiny",
-	"package": "shiny",
-	"description": "shiny from the command line",
-	"install": "install.packages('shiny')",
-	"commands": [
-		{
-			"name": "run",
-			"short": "r",
-			"description": "run the application",
-			"function": "runApp",
-			"arguments": [
-				{
-					"name": "dir",
-					"short": "d",
-					"description": "directory where the app.R is location",
-					"type": "string",
-					"required": false,
-					"default": "."
-				}
-			]
-		}
-	]
+  "program": "rshiny",
+  "package": "shiny",
+  "description": "shiny from the command line",
+  "install": "install.packages('shiny')",
+  "commands": [
+    {
+      "name": "run",
+      "short": "r",
+      "description": "run the application",
+      "function": "runApp",
+      "arguments": [
+        {
+          "name": "dir",
+          "short": "d",
+          "description": "directory where the app.R is location",
+          "type": "string",
+          "required": false,
+          "default": "."
+        }
+      ]
+    }
+  ]
 }
 ```
 
