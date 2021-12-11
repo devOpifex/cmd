@@ -37,7 +37,7 @@ func getPath() string {
 
 func rRun(args string) {
 	path := getPath()
-	rCommand := exec.Command(path, args)
+	rCommand := exec.Command(path, "-e", args)
 	stdout, err := rCommand.StdoutPipe()
 	if err != nil {
 		fmt.Println(err)
@@ -147,6 +147,9 @@ func (app *app) args(index int) string {
 	var args string
 	for i, arg := range app.conf.Commands[index].Arguments {
 		args = args + "\"+" + app.conf.Commands[index].Name + strings.Title(arg.Name) + "+\""
+		if parseType(arg.Type) == "string" {
+			args = "'" + args + "'"
+		}
 		if i+1 < len(app.conf.Commands[index].Arguments) {
 			args = args + ","
 		}
@@ -159,7 +162,7 @@ func (app *app) cmd(index int) {
 		Use: "` + app.conf.Commands[index].Name + `",
 		Short: "` + app.conf.Commands[index].Description + `",
 		Run: func(cmd *cobra.Command, args []string) {
-			rArgs := "-e ` + app.conf.Package + "::" + app.conf.Commands[index].Function + "(" + app.args(index) + `)"
+			rArgs := "` + app.conf.Package + "::" + app.conf.Commands[index].Function + "(" + app.args(index) + `)"
 			rRun(rArgs)
 		},
 	}
